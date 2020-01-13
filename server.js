@@ -5,6 +5,8 @@ const connection = require('./config')
 const port = 8080
 const app = express()
 const cors = require('cors')
+const secret = 'secret'
+const jwt = require('jsonwebtoken')
 
 const userData = {
     email: 'amusant@test.com',
@@ -27,7 +29,11 @@ app.post('/api/home', function(req, res) {
     if (userData.password !== formData.password) {
         res.send('Mauvais password')
     } else {
-        res.send('ok')
+        jwt.sign(formData, secret, (err, token) => {
+            res.json({
+                token
+            })
+        })
     }
 })
 
