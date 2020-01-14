@@ -1,6 +1,5 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const path = require('path')
 const connection = require('./config')
 const port = 8080
 const app = express()
@@ -26,10 +25,13 @@ app.get('/api/secret', function(req, res) {
 
 app.post('/api/home', function(req, res) {
     const formData = req.body
+    const payload = {
+        sub: req.body.email
+    }
     if (userData.password !== formData.password) {
         res.send('Mauvais password')
     } else {
-        jwt.sign(formData, secret, (err, token) => {
+        jwt.sign(payload, secret, (err, token) => {
             res.json({
                 token
             })
